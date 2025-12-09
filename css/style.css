@@ -58,6 +58,10 @@ button{
 }
 
 
+.hidden{
+    display: none;
+}
+
 
 /*header*/
 .header__container{
@@ -127,14 +131,22 @@ button{
 .products__card{
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 3rem;
     background-color: #fff;
     border-radius: 1rem;
     width: 35rem;
+    padding: 2rem;
 }
 
-.products__card img{
 
+.products__card button{
+    background-color: var(--color--primary);
+    color: var(--color--primary--dark);
+    width: 11rem;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    align-self: center;
+    cursor: pointer;
 }
 
 .card__description{
@@ -142,3 +154,103 @@ button{
     flex-direction: row-reverse;
     justify-content: space-between;
 }
+
+.blur{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(3, 6, 78, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 1;
+}
+
+
+/*modal*/
+
+.modal__card{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 5rem;
+    background-color: #fff;
+    width: 70rem;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 2rem;
+    padding: 1rem 2rem;
+}
+
+.modal__title{
+    align-self: center;
+}
+
+.modal__content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal__content img{
+    width: 10rem;
+    height: 10rem;
+}
+
+.modal__content svg{
+    width: 2rem;
+    height: 3rem;
+}
+
+.modal__cart-svg{
+    margin-right: 0.4rem;
+}
+
+.modal__cart-svg-reverse{
+    margin-left: 0.2rem;
+}
+
+.rotate{
+    transform: rotate(180deg);
+    transform-origin: center;
+}
+
+.modal__description{
+    display: flex;
+    flex-direction: column;
+}
+
+.modal__count{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.modal__total{
+    display: flex;
+    gap: 4rem;
+    justify-content: center;
+}
+
+.modal__total--buttons button{
+    background-color: white;
+    color: var(--color--primary--dark);
+    border:1px solid var(--color--primary--dark);
+    border-radius: 1rem;
+    padding: 0.5rem 2rem;
+}
+
+.modal__total--buttons{
+    display: flex;
+    gap: 1rem;
+}
+
+
+
+/*div{*/
+/*    border: 1px solid var(--color--text);*/
+/*}*/
