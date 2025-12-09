@@ -54,7 +54,12 @@ button{
     border: none;
     background: none;
     text-decoration: none;
+    cursor: pointer;
 
+}
+
+svg{
+    cursor: pointer;
 }
 
 
@@ -95,6 +100,7 @@ button{
 
 .header__cart-icon{
     position: relative;
+    cursor: pointer;
 }
 
 .header__cart-count{
@@ -155,7 +161,7 @@ button{
     justify-content: space-between;
 }
 
-.blur{
+.backdrop{
     position: absolute;
     top: 0;
     right: 0;
@@ -168,6 +174,7 @@ button{
 
 
 /*modal*/
+
 
 .modal__card{
     position: absolute;
@@ -183,6 +190,7 @@ button{
     transform: translate(-50%, -50%);
     border-radius: 2rem;
     padding: 1rem 2rem;
+    z-index: 2;
 }
 
 .modal__title{
