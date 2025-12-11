@@ -8,43 +8,43 @@
         {
             id: 2,
             name: 'Product',
-            price: '11,000,000',
+            price: 11000000,
             image: '/assets/images/products/i.jpg',
         },
         {
             id: 3,
             name: 'Product',
-            price: '11,000,000',
+            price: 12000000,
             image: '/assets/images/products/u.jpg',
         },        {
             id: 4,
             name: 'Product',
-            price: '11,000,000',
+            price: 7000000,
             image: '/assets/images/products/y.jpg',
         },        {
             id: 5,
             name: 'Product',
-            price: '11,000,000',
+            price: 3000000,
             image: '/assets/images/products/t.jpg',
         },        {
             id: 6,
             name: 'Product',
-            price: '11,000,000',
+            price: 5000000,
             image: '/assets/images/products/r.jpg',
         },        {
             id: 7,
             name: 'Product',
-            price: '11,000,000',
+            price: 100000,
             image: '/assets/images/products/e.jpg',
         },        {
             id: 8,
             name: 'Product',
-            price: '11,000,000',
+            price: 21000000,
             image: '/assets/images/products/w.jpg',
         },        {
             id: 9,
             name: 'Product',
-            price: '11,000,000',
+            price: 3200000,
             image: '/assets/images/products/q.jpg',
         },
     ]

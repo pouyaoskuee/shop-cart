@@ -181,7 +181,7 @@ svg{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 5rem;
+    gap: 3rem;
     background-color: #fff;
     width: 70rem;
     height: auto;
@@ -195,6 +195,12 @@ svg{
 
 .modal__title{
     align-self: center;
+}
+
+.modal__products{
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
 }
 
 .modal__content{
