@@ -44,6 +44,7 @@ class PRODUCTS{
 
 
 class UI {
+
     displatproduct(product) {
         let result = '';
         product.forEach((item) => {
@@ -77,7 +78,7 @@ class UI {
                         <use xlink:href="/assets/images/sprite.svg#chevron"></use>
                     </svg>
                     <span>${item.quantity}</span>
-                    <svg class="modal__cart-svg-reverse rotate data-id="${item.id}"">
+                    <svg class="modal__cart-svg-reverse rotate" data-id="${item.id}">
                         <use xlink:href="/assets/images/sprite.svg#chevron"></use>
                     </svg>
                     </div>
@@ -97,7 +98,6 @@ class UI {
     }
 
     addtocart(){
-
         const addbtn = document.querySelectorAll('.card__button');
         const arryaddbtn = [...addbtn];
         arryaddbtn.forEach(item => {
@@ -146,13 +146,31 @@ class UI {
 
     }
 
-    setupapp(){
-        cart = LOCALSTORAGE.getcartvalue() ||[]
-        cart.forEach((item) => {
-            this.modaldisplay(cart);
-            this.setcartvalue(cart);
-        })
+    // setupapp(){
+    //     cart = LOCALSTORAGE.getcartvalue() ||[]
+    //     cart.forEach((item) => {
+    //         this.modaldisplay(cart);
+    //         this.setcartvalue(cart);
+    //     })
+    //
+    // }
 
+
+
+    btnsupdate(){
+        const addbtn = document.querySelectorAll('.card__button');
+        const arryaddbtn = [...addbtn];
+        arryaddbtn.forEach(item => {
+            const id = item.dataset.id;
+            const isincart = cart.find((p) => p.id === parseInt(id));
+            if (isincart) {
+                item.innerText = 'in your cart!';
+                item.disable = true;
+            } else {
+                item.innerText = 'add to cart!';
+                item.removeAttribute("disabled");
+            }
+        })
     }
 
     removetocart(id){
@@ -179,20 +197,7 @@ class UI {
         button_clear.addEventListener('click', ()=>{
             cart.forEach((item) => {
                 this.removetocart(item.id)
-
-                const addbtn = document.querySelectorAll('.card__button');
-                const arryaddbtn = [...addbtn];
-                arryaddbtn.forEach(item => {
-                    const id = item.dataset.id;
-                    const isincart = cart.find((p) => p.id === parseInt(id));
-                    if (isincart) {
-                        item.innerText = 'in your cart!';
-                        item.disable = true;
-                    } else {
-                        item.innerText = 'add to cart!';
-                        item.removeAttribute("disabled");
-                    }
-                })
+                this.btnsupdate()
             })
             modal_products.innerHTML = '<p>your cart is empty.</p>';
             closemodal();
@@ -202,12 +207,30 @@ class UI {
 
         modal_products.addEventListener('click', (e)=>{
             if (e.target.classList.contains('modal__cart-svg')) {
-                const addmore=  cart.find((item) => item.id == e.target.dataset.id)
-                console.log(addmore);
+                e.preventDefault();
+                const addmore=  cart.find((item) => parseInt(item.id) === parseInt(e.target.dataset.id))
                 addmore.quantity++;
                 this.setcartvalue(cart);
                 LOCALSTORAGE.setcartProducts(cart);
                 this.modaldisplay(cart);
+            }else if(e.target.classList.contains('modal__cart-svg-reverse')) {
+                e.preventDefault();
+               const removmore = cart.find((item) => parseInt(item.id) === parseInt(e.target.dataset.id))
+                removmore.quantity--;
+               this.setcartvalue(cart);
+               this.modaldisplay(cart);
+               if (removmore.quantity === 0) {
+                   this.removetocart(removmore.id);
+                   this.modaldisplay(cart);
+                   this.btnsupdate()
+               }
+               LOCALSTORAGE.setcartProducts(cart);
+            }else if(e.target.classList.contains('modal__remove-svg')) {
+                const removeitem = cart.find((item) => parseInt(item.id) === parseInt(e.target.dataset.id))
+                this.removetocart(removeitem.id);
+                LOCALSTORAGE.setcartProducts(cart);
+                this.modaldisplay(cart);
+                this.btnsupdate()
             }
         })
     }
@@ -240,7 +263,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     const ui = new UI();
     ui.displatproduct(products_data);
-    ui.setupapp()
+    // ui.setupapp()
     ui.addtocart();
     ui.cartlogic()
     ui.removetocart()

@@ -35,6 +35,23 @@ h3{
     font-size: 2.5rem;
 }
 
+@media  screen and (max-width: 800px){
+    body{
+        font-size: 1.2rem;
+    }
+
+    h1{
+        font-size: 3.5rem;
+    }
+    h2{
+        font-size: 2.5rem;
+    }
+    h3{
+        font-size: 1.5rem;
+    }
+
+}
+
 a{
     color: var(--color--text);
     text-decoration: none;
@@ -121,6 +138,12 @@ svg{
     height: 2.4rem;
 }
 
+@media(max-width:768px){
+    .header__container{
+        padding: 0 1rem;
+    }
+}
+
 /*products*/
 
 .products{
@@ -170,6 +193,21 @@ svg{
     background-color: rgba(3, 6, 78, 0.5);
     backdrop-filter: blur(8px);
     z-index: 1;
+}
+
+@media(max-width:1024px){
+    .products{
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+    }
+}
+
+@media(max-width:700px){
+    .products{
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        padding: 0;
+    }
 }
 
 
@@ -261,6 +299,20 @@ svg{
 .modal__total--buttons{
     display: flex;
     gap: 1rem;
+}
+
+@media(max-width:1024px){
+    .modal__card{
+        width: 57rem;
+
+    }
+}
+
+@media(max-width:768px){
+    .modal__card{
+        width: 30rem;
+
+    }
 }
 
 
