@@ -4,26 +4,26 @@ const backdrop = document.querySelector('.backdrop');
 
 
 
-cart_icon.addEventListener('click', open_modal)
-backdrop.addEventListener('click', closemodal)
+cart_icon.addEventListener('click', openModal)
+backdrop.addEventListener('click', closeModal)
 
 
 
 
 
-function open_modal() {
+function openModal() {
     modal.classList.toggle('hidden');
     backdrop.classList.toggle('hidden');
 }
 
-function closemodal() {
+function closeModal() {
     modal.classList.toggle('hidden');
     backdrop.classList.toggle('hidden');
 }
 
 //-----------------------------------------------------------------------------
 import {products_list} from './products.js';
-let cart = []
+
 
 
 const show_product = document.querySelector('.products');
@@ -31,6 +31,31 @@ const cart_value= document.querySelector('.header__cart-count');
 const total_price = document.querySelector('.modal__total--price span');
 const modal_products = document.querySelector('.modal__products');
 const button_clear = document.querySelector('.modal__button-clear');
+
+let cart = []
+
+document.addEventListener('DOMContentLoaded', ()=>{
+
+    LOCALSTORAGE.setProducts()
+    console.log(LOCALSTORAGE.getCartProducts())
+    const products = new PRODUCTS();
+    const products_data = products.getProduct();
+
+    const ui = new UI();
+    ui.displayProduct(products_data);
+    ui.addToCart();
+    ui.cartLogics()
+    ui.displayModal(LOCALSTORAGE.getCartProducts())
+    cart = LOCALSTORAGE.getCartProducts()
+    ui.btnUpdate()
+
+})
+
+
+
+
+
+
 
 
 
@@ -44,8 +69,7 @@ class PRODUCTS{
 
 
 class UI {
-
-    displatproduct(product) {
+    displayProduct(product) {
         let result = '';
         product.forEach((item) => {
             result += `<div class="products__card">
@@ -63,7 +87,7 @@ class UI {
 
     }
 
-    modaldisplay(cart) {
+    displayModal(cart) {
         let result = '';
         cart.forEach((item) => {
             result +=
@@ -92,145 +116,104 @@ class UI {
             </div>`
         })
         modal_products.innerHTML = result;
-        this.removetocart()
-
+        this.setCartValue(cart);
 
     }
 
-    addtocart(){
-        const addbtn = document.querySelectorAll('.card__button');
-        const arryaddbtn = [...addbtn];
-        arryaddbtn.forEach(item => {
-            const id = item.dataset.id;
-            const isincart =  cart.find((p) => p.id === parseInt(id));
-            if(isincart){
-                item.innerText = 'in your cart!';
-                item.disable = true;
-            }else {
-                item.innerText = 'add to cart!';
-                item.removeAttribute("disabled");
-            }
 
+    addToCart(){
+        const addButtons = document.querySelectorAll('.card__button');
+        const arrayButtons = [...addButtons];
+        arrayButtons.forEach(item => {
             item.addEventListener('click', (e)=>{
-                console.log('hi')
-                e.target.innerText = "in your cart!"
-                e.target.disabled = true;
-                const cartitem = LOCALSTORAGE.getProduct(id);
-                console.log(cart)
-                cart = [...cart ,{...cartitem, quantity:1}];
-                LOCALSTORAGE.setcartProducts(cart);
-                this.setcartvalue(cart);
-                this.modaldisplay(cart);
-                console.log(cart);
-
-
-
-
-
+                const cartItem = LOCALSTORAGE.getProduct(Number(item.dataset.id));
+                cart = [...cart ,{...cartItem, quantity:1}];
+                LOCALSTORAGE.setCartProducts(cart);
+                this.setCartValue(cart);
+                this.displayModal(cart);
+                this.btnUpdate()
             })
-
         })
 
-
     }
 
-    setcartvalue(cart){
-        let tempcartitem = 0
-        const totalprice = cart.reduce((acc, cur) => {
-            tempcartitem += cur.quantity;
+
+    setCartValue(cart){
+        let numOfItem = 0
+        const totalPrice = cart.reduce((acc, cur) => {
+            numOfItem += cur.quantity;
             return parseFloat(acc) + parseFloat(cur.price)*parseFloat(cur.quantity);
         },0)
 
-        cart_value.innerText = tempcartitem;
-        total_price.innerText = totalprice;
+        cart_value.innerText = numOfItem
+        total_price.innerText = totalPrice;
+
+        LOCALSTORAGE.setCartProducts(cart);
 
     }
 
-    // setupapp(){
-    //     cart = LOCALSTORAGE.getcartvalue() ||[]
-    //     cart.forEach((item) => {
-    //         this.modaldisplay(cart);
-    //         this.setcartvalue(cart);
-    //     })
-    //
-    // }
 
-
-
-    btnsupdate(){
-        const addbtn = document.querySelectorAll('.card__button');
-        const arryaddbtn = [...addbtn];
-        arryaddbtn.forEach(item => {
-            const id = item.dataset.id;
-            const isincart = cart.find((p) => p.id === parseInt(id));
-            if (isincart) {
-                item.innerText = 'in your cart!';
-                item.disable = true;
-            } else {
-                item.innerText = 'add to cart!';
-                item.removeAttribute("disabled");
-            }
+    btnUpdate(){
+        const addButtons = document.querySelectorAll('.card__button');
+        const arrayButtons = [...addButtons];
+        arrayButtons.forEach(item => {
+            item.innerText = "add to cart!"
+            item.disabled = false;
+            const cartItem = cart.filter((p) => p.id === parseInt(item.dataset.id));
+            cartItem.forEach((button) => {
+                if (item.dataset.id == button.id) {
+                    item.innerText = "in your cart!"
+                    item.disabled = true;
+                }
+            })
         })
     }
 
-    removetocart(id){
+
+    removeFromCart(id){
         cart = cart.filter((item) => item.id !== id)
-        LOCALSTORAGE.setcartProducts(cart);
-        this.setcartvalue(cart);
-
-
-
-
-        // const button_remove = document.querySelector('.modal__remove-button');
-        // button_remove.addEventListener('click', (e)=>{
-        //     cart.forEach((item) => {
-        //     })
-        //
-        //
-        // })
-
-
+        LOCALSTORAGE.setCartProducts(cart);
+        this.setCartValue(cart);
+        this.btnUpdate()
     }
 
-    cartlogic() {
+
+    cartLogics() {
 
         button_clear.addEventListener('click', ()=>{
             cart.forEach((item) => {
-                this.removetocart(item.id)
-                this.btnsupdate()
+                this.removeFromCart(item.id)
+                this.btnUpdate()
             })
             modal_products.innerHTML = '<p>your cart is empty.</p>';
-            closemodal();
-
-
+            closeModal();
         })
 
         modal_products.addEventListener('click', (e)=>{
             if (e.target.classList.contains('modal__cart-svg')) {
                 e.preventDefault();
-                const addmore=  cart.find((item) => parseInt(item.id) === parseInt(e.target.dataset.id))
-                addmore.quantity++;
-                this.setcartvalue(cart);
-                LOCALSTORAGE.setcartProducts(cart);
-                this.modaldisplay(cart);
+                const increment=  cart.find((item) => parseInt(item.id) === parseInt(e.target.dataset.id))
+                increment.quantity++;
+                this.setCartValue(cart);
+                this.displayModal(cart);
             }else if(e.target.classList.contains('modal__cart-svg-reverse')) {
                 e.preventDefault();
-               const removmore = cart.find((item) => parseInt(item.id) === parseInt(e.target.dataset.id))
-                removmore.quantity--;
-               this.setcartvalue(cart);
-               this.modaldisplay(cart);
-               if (removmore.quantity === 0) {
-                   this.removetocart(removmore.id);
-                   this.modaldisplay(cart);
-                   this.btnsupdate()
+               const decrement = cart.find((item) => parseInt(item.id) === parseInt(e.target.dataset.id))
+                decrement.quantity--;
+               this.setCartValue(cart);
+               this.displayModal(cart);
+               if (decrement.quantity === 0) {
+                   this.removeFromCart(decrement.id);
+                   this.displayModal(cart);
+                   this.btnUpdate()
                }
-               LOCALSTORAGE.setcartProducts(cart);
+               LOCALSTORAGE.setCartProducts(cart);
             }else if(e.target.classList.contains('modal__remove-svg')) {
                 const removeitem = cart.find((item) => parseInt(item.id) === parseInt(e.target.dataset.id))
-                this.removetocart(removeitem.id);
-                LOCALSTORAGE.setcartProducts(cart);
-                this.modaldisplay(cart);
-                this.btnsupdate()
+                this.removeFromCart(removeitem.id);
+                LOCALSTORAGE.setCartProducts(cart);
+                this.displayModal(cart);
+                this.btnUpdate()
             }
         })
     }
@@ -238,42 +221,26 @@ class UI {
 
 }
 
-
-class  LOCALSTORAGE{
-    static saveproduct(){
+class LOCALSTORAGE{
+    static setProducts(){
         localStorage.setItem('products', JSON.stringify(products_list));
     }
     static getProduct(id){
         const products = JSON.parse(localStorage.getItem('products'));
-        return products.find(p => p.id === parseInt(id));
+        return products?.find(p => p.id === parseInt(id));
     }
-    static setcartProducts(cart){
+    static setCartProducts(cart){
         localStorage.setItem('cart-products', JSON.stringify(cart));
     }
 
-    static getcartvalue(){
+    static getCartProducts(){
         return JSON.parse(localStorage.getItem('cart-products'));
     }
 }
 
 
-document.addEventListener('DOMContentLoaded', ()=>{
-    const products = new PRODUCTS();
-    const products_data = products.getProduct();
-
-    const ui = new UI();
-    ui.displatproduct(products_data);
-    // ui.setupapp()
-    ui.addtocart();
-    ui.cartlogic()
-    ui.removetocart()
 
 
-
-
-    LOCALSTORAGE.saveproduct();
-
-})
 
 
 
