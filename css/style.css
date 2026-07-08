@@ -10,14 +10,14 @@ html{
 
 :root{
     --color--text: #151515;
-    --color--primary: #edb9ff;
-    --color--primary--dark: #8f14af;
+    --color--primary: #dab2ff;
+    --color--primary--dark: #6e11b0;
 }
 
 body{
     color: var(--color--text);
     font-size: 1.8rem;
-    background-color: #ededed;
+    background-color: #f3f4f6;
 }
 
 h1{
@@ -59,7 +59,6 @@ a{
 }
 
 a:hover{
-    text-decoration: none;
     color: var(--color--primary);
 }
 
@@ -77,6 +76,10 @@ button{
 
 svg{
     cursor: pointer;
+}
+
+use{
+    pointer-events: none
 }
 
 
