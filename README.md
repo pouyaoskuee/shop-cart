@@ -6,13 +6,13 @@ All changes and data are saved in localStorage so the cart is not empty after re
 
 ------------------------------------------------------------------------
 
-## Highlights
+## 🚀 Features
 
 -   OOP programing
 -   save to LocalStorage
 -   buttons are dynamic
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 ### Frontend
 
@@ -20,7 +20,7 @@ All changes and data are saved in localStorage so the cart is not empty after re
 -   javaScript
 
 
-## Project Structure
+## 📂 Project Structure
 
 ``` text
 ├── assets
@@ -35,7 +35,7 @@ All changes and data are saved in localStorage so the cart is not empty after re
     └── products.js
 ```
 
-## Installation
+## ⚙️ Installation
 
 ``` bash
 git clone https://github.com/pouyaoskuee/Freelancer-App-Client.git
@@ -43,13 +43,13 @@ open with live server
 ```
 
 
-## Future Improvements
+## 💡 Future Improvements
 
 -   Internationalization (i18n)
 -   Unit Testing
 -   End-to-End Testing
 -   Email Authentication
 
-## License
+## 📄 License
 
 This project is intended for educational and portfolio purposes.
